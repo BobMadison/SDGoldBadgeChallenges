@@ -69,11 +69,6 @@ namespace KomodoCafe_Repo
             if (oldContent != null)
             {
                 UpdatedMenu(oldContent, newContent);
-                /* oldContent.MenuNumber = newContent.MenuNumber;
-                oldContent.MealName = newContent.MealName;
-                oldContent.Description = newContent.Description;
-                oldContent.Ingredients = newContent.Ingredients;
-                oldContent.Price = newContent.Price; */
 
                 return true;
             }
@@ -88,10 +83,6 @@ namespace KomodoCafe_Repo
             if (oldContent != null)
             {
                 UpdatedMenu(oldContent, newContent);
-                /* oldContent.MealName = newContent.MealName;
-                oldContent.Description = newContent.Description;
-                oldContent.Ingredients = newContent.Ingredients;
-                oldContent.Price = newContent.Price; */
 
                 return true;
             }

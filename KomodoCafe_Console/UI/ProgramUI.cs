@@ -23,8 +23,6 @@ namespace KomodoCafe_Console.UI
         {
             SeedContentList();
             RunMenu();
-            // ShowContentByMealName();
-            //  ShowContentByMealNumber();
         }
 
         private void RunMenu()
@@ -33,43 +31,49 @@ namespace KomodoCafe_Console.UI
             do
             {
                 Console.Clear();
-                Console.Write("Enter the numbner of the option you'd like to select:\n" +
-                    "1. Show the Menu\n" +
-                    "2. Find a menu item by name of meal\n" +
-                    "3. Find a menu item by number of meal\n" +
-                    "4. Add a new menu item\n" +
-                    "5. Remove a meal\n" +
-                    "6. Update a meal\n" +
-                    "0. Exit\n\n" +
-                    "Enter your choice: ");
+                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
+                    " 1. Show the Menu\n" +
+                    " 2. Find a menu item by name of meal\n" +
+                    " 3. Find a menu item by number of meal\n" +
+                    " 4. Add a new menu item\n" +
+                    " 5. Remove a meal\n" +
+                    " 6. Update a meal\n" +
+                    " 0. Exit\n\n" +
+                    " Enter your choice: ");
 
                 string userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
                     case "1":
-                        // CreateNewContent();
+                        // Show the menu;
                         ShowAllContent();
+                        Pause();
                         break;
                     case "2":
-                        // -- Find content
+                        // Meal Name
                         ShowContentByMealName();
+                        Pause();
                         break;
                     case "3":
-                        // -- Add new stream
+                        // Meal Number
                         ShowContentByMealNumber();
+                        Pause();
                         break;
                     case "4":
-                        // Add new meal
+                        // New Meal
                         AddNewMeal();
+                        Pause();
                         break;
                     case "5":
                         // Remove
                         RemoveMealFromList();
+                        Pause();
                         break;
                     case "6":
-                        // Remove
+                        // Update
                         UpdateMeal();
+                        Pause();
                         break;
                     case "0":
                         // Exit
@@ -80,7 +84,13 @@ namespace KomodoCafe_Console.UI
                         Console.ReadKey();
                         break;
                 }
+
             } while (continueToRun);
+        }
+        private void Pause()
+        {
+            Console.Write($"Press any key to continue . . . ");
+            Console.ReadKey();
         }
 
         private void ShowAllContent()
@@ -93,14 +103,14 @@ namespace KomodoCafe_Console.UI
             {
                 DisplayContent(content);
             }
-            Console.ReadKey();
+
         }
 
         private void ShowContentByMealName()
         {
-            string title = GetMealNameFromUser();
+            string mealName = GetMealNameFromUser();
 
-            KomodoCafeMenu content = _repo.GetContentsByMealName(title);
+            KomodoCafeMenu content = _repo.GetContentsByMealName(mealName);
 
             if (content != null)
             {
@@ -110,14 +120,14 @@ namespace KomodoCafe_Console.UI
             {
                 Console.WriteLine("Invalid title. Could not find any results.");
             }
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         private void ShowContentByMealNumber()
         {
-            int number = GetMealNumberFromUser();
+            int mealNumber = GetMealNumberFromUser();
 
-            KomodoCafeMenu content = _repo.GetContentsByMealNumber(number);
+            KomodoCafeMenu content = _repo.GetContentsByMealNumber(mealNumber);
 
             if (content != null)
             {
@@ -127,23 +137,23 @@ namespace KomodoCafe_Console.UI
             {
                 Console.WriteLine("Invalid meal number. Could not find any results.");
             }
-            Console.ReadKey();
+            // Console.ReadKey();
         }
 
         private string GetMealNameFromUser()
         {
-            Console.Clear();
-
-            Console.WriteLine("Enter a meal name: ");
+            // Console.Clear();
+            ShowAllContent();
+            Console.Write("\n Enter a meal name: ");
 
             return Console.ReadLine().ToLower();
         }
 
         private int GetMealNumberFromUser()
         {
-            Console.Clear();
-
-            Console.WriteLine("Enter a meal number: ");
+            // Console.Clear();
+            ShowAllContent();
+            Console.Write("Enter a meal number: ");
 
             return Convert.ToInt32(Console.ReadLine());
         }
@@ -157,7 +167,7 @@ namespace KomodoCafe_Console.UI
         }
 
         public void AddNewMeal()
-        {    
+        {
             KomodoCafeMenu content = new KomodoCafeMenu();
 
             content.MealNumber = _repo.Count + 1;
@@ -169,7 +179,7 @@ namespace KomodoCafe_Console.UI
             Console.Write("Please enter a meal description: ");
             content.Description = Console.ReadLine();
 
-            Console.Write("Please enter a the price of the meal (no dollar sign): ");
+            Console.Write("Please enter price of the meal (no dollar sign): ");
             content.Price = Convert.ToDecimal(Console.ReadLine());
 
             bool keepAdding = true;
@@ -181,26 +191,20 @@ namespace KomodoCafe_Console.UI
             {
                 Console.Write($"Enter ingredient number {num}: ");
                 ingred = Console.ReadLine();
-                
+
                 content.Ingredients.Add(ingred);
                 Console.Write("Add another? (y/n) ");
                 response = Console.ReadLine().ToLower();
+
                 if (response != "y")
                 {
-                    num++;
                     keepAdding = false;
                 }
-                    
+                else
+                {
+                    num++;
+                }
             } while (keepAdding);
-
-            // Act (ad to directory)
-            /*
-            content.Ingredients.Add("Two poached Eggs");
-            content.Ingredients.Add("Canadian Bacon");
-            content.Ingredients.Add("English Muffin");
-            content.Ingredients.Add("Hollandaise Sauce");
-            content.Ingredients.Add("Hash Browns or Grits");
-            */
             bool wasAdded = _repo.AddContentToDirectory(content);
 
             if (!wasAdded) Console.WriteLine("Failed to add.");
@@ -208,7 +212,6 @@ namespace KomodoCafe_Console.UI
 
         private void RemoveMealFromList()
         {
-            Console.Clear();
             List<KomodoCafeMenu> listOfContent = _repo.GetContents();
             Console.WriteLine("Which meal do you want to delete?");
 
@@ -257,10 +260,11 @@ namespace KomodoCafe_Console.UI
                     bool foundName = false;
 
                     targetIndex = 0;
-                    
-                    do { 
+
+                    do
+                    {
                         KomodoCafeMenu desiredContent = listOfContent[targetIndex];
-                        if(mealName == desiredContent.MealName)
+                        if (mealName == desiredContent.MealName)
                         {
                             foundName = true;
                             if (_repo.DeleteContentByMealName(desiredContent.MealName))
@@ -273,18 +277,17 @@ namespace KomodoCafe_Console.UI
                             }
                         }
                         targetIndex++;
-                    } while (!foundName);              
+                    } while (!foundName);
                     Console.ReadKey();
                     break;
                 default: break;
             }
             // need to renumber the list.
-            for(int i = 0; i < listOfContent.Count; i++)
+            for (int i = 0; i < listOfContent.Count; i++)
             {
                 listOfContent[i].MealNumber = i + 1;
             }
         }
-
         private void UpdateMeal()
         {
             Console.Clear();
@@ -295,20 +298,17 @@ namespace KomodoCafe_Console.UI
                 count++;
                 Console.WriteLine($"Meal number: {count}. {content.MealName}");
             }
-            
+
             Console.Write("Which meal do you want to change?\n" +
                 "Enter the meal number: ");
-
-            
 
             int targetContentId = int.Parse(Console.ReadLine());
 
             Console.Write("Do you want to change the meal's price? (y/n): ");
             string choice = Console.ReadLine().ToLower();
             string newName = "";
-            
 
-            if(choice == "y")
+            if (choice == "y")
             {
                 Console.Write("Enter the new name: ");
                 newName = Console.ReadLine();
@@ -317,10 +317,9 @@ namespace KomodoCafe_Console.UI
 
             Console.Write("Do you want to change the meal name? (y/n): ");
             choice = Console.ReadLine().ToLower();
-            
 
             if (choice == "y")
-            {   
+            {
                 decimal newPrice = 0m;
                 Console.Write("Enter the new price: ");
                 newPrice = Convert.ToDecimal(Console.ReadLine());
