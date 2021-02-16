@@ -60,47 +60,6 @@ namespace KomodoCafe_Repo
             throw new Exception($"{mealName} is not a valid Menu Name.");
         }
 
-        // Update
-        public bool UpdateExistingContentByMealNumber(
-            int mealNumber,
-            KomodoCafeMenu newContent)
-        {
-            KomodoCafeMenu oldContent = GetContentsByMealNumber(mealNumber);
-            if (oldContent != null)
-            {
-                UpdatedMenu(oldContent, newContent);
-
-                return true;
-            }
-            return false;
-        }
-
-        public bool UpdateExistingContentByMealName(
-            string mealName,
-            KomodoCafeMenu newContent)
-        {
-            KomodoCafeMenu oldContent = GetContentsByMealName(mealName);
-            if (oldContent != null)
-            {
-                UpdatedMenu(oldContent, newContent);
-
-                return true;
-            }
-            return false;
-        }
-
-        // This method is used to not replicate code in updating the menu
-        public void UpdatedMenu(
-            KomodoCafeMenu oldContent,
-            KomodoCafeMenu newContent)
-        {
-            oldContent.MealNumber = newContent.MealNumber;
-            oldContent.MealName = newContent.MealName;
-            oldContent.Description = newContent.Description;
-            oldContent.Ingredients = newContent.Ingredients;
-            oldContent.Price = newContent.Price;
-        }
-
         // Delete by either meal number or the meal name
         public bool DeleteContentByMealNumber(int mealNumber)
         {

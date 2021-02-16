@@ -93,7 +93,7 @@ namespace KomodoCafe_Console.UI
             Console.ReadKey();
         }
 
-        private void ShowAllContent()
+        private void ShowAllContent()// case 1 from the menu.
         {
             Console.Clear();
 
@@ -106,7 +106,7 @@ namespace KomodoCafe_Console.UI
 
         }
 
-        private void ShowContentByMealName()
+        private void ShowContentByMealName() // case 2 from the menu
         {
             string mealName = GetMealNameFromUser();
 
@@ -123,7 +123,7 @@ namespace KomodoCafe_Console.UI
             //Console.ReadKey();
         }
 
-        private void ShowContentByMealNumber()
+        private void ShowContentByMealNumber() // case 3 from the menu
         {
             int mealNumber = GetMealNumberFromUser();
 
@@ -163,15 +163,21 @@ namespace KomodoCafe_Console.UI
             Console.WriteLine($"Meal Number: {content.MealNumber}\n" +
                 $"Meal Name: {content.MealName}\n" +
                 $"Description: {content.Description}\n" +
-                $"Price : ${content.Price}\n");
+                $"Price : ${content.Price}\n" +
+                $"\nIngredients for {content.MealName}: ");
+
+            for (int i = 0; i < content.Ingredients.Count; i++)
+            {
+                Console.WriteLine($"\t{i + 1}. {content.Ingredients[i]}");
+            }
+            Console.WriteLine();
         }
 
-        public void AddNewMeal()
+        public void AddNewMeal() // case 4 from the menu
         {
             KomodoCafeMenu content = new KomodoCafeMenu();
 
             content.MealNumber = _repo.Count + 1;
-            Console.WriteLine($"New meal number is {content.MealNumber}");
 
             Console.Write("Please enter a meal name: ");
             content.MealName = Console.ReadLine();
@@ -210,15 +216,15 @@ namespace KomodoCafe_Console.UI
             if (!wasAdded) Console.WriteLine("Failed to add.");
         }
 
-        private void RemoveMealFromList()
+        private void RemoveMealFromList() // case 5 from menu
         {
             List<KomodoCafeMenu> listOfContent = _repo.GetContents();
             Console.WriteLine("Which meal do you want to delete?");
 
             int count = 0;
 
-            Console.Write("Do you want to delete my meal number or meal name?\n" +
-                "Enter 1 for number ror 2 by name: ");
+            Console.Write("Do you want to delete by meal number or meal name?\n" +
+                "Enter 1 for number or 2 for meal name: ");
 
             string choice = Console.ReadLine();
 
@@ -253,7 +259,6 @@ namespace KomodoCafe_Console.UI
                     {
                         Console.WriteLine("No content has that ID.");
                     }
-                    Console.ReadKey();
                     break;
                 case 2:
                     string mealName = Console.ReadLine();
@@ -278,7 +283,7 @@ namespace KomodoCafe_Console.UI
                         }
                         targetIndex++;
                     } while (!foundName);
-                    Console.ReadKey();
+                   
                     break;
                 default: break;
             }
@@ -288,7 +293,7 @@ namespace KomodoCafe_Console.UI
                 listOfContent[i].MealNumber = i + 1;
             }
         }
-        private void UpdateMeal()
+        private void UpdateMeal()  // case 6 from menu
         {
             Console.Clear();
             List<KomodoCafeMenu> listOfContent = _repo.GetContents();
@@ -304,7 +309,7 @@ namespace KomodoCafe_Console.UI
 
             int targetContentId = int.Parse(Console.ReadLine());
 
-            Console.Write("Do you want to change the meal's price? (y/n): ");
+            Console.Write("Do you want to change the meal's name? (y/n): ");
             string choice = Console.ReadLine().ToLower();
             string newName = "";
 
@@ -315,7 +320,7 @@ namespace KomodoCafe_Console.UI
                 listOfContent[targetContentId - 1].MealName = newName;
             }
 
-            Console.Write("Do you want to change the meal name? (y/n): ");
+            Console.Write("Do you want to change the meal's price? (y/n): ");
             choice = Console.ReadLine().ToLower();
 
             if (choice == "y")
