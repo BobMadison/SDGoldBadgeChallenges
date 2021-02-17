@@ -1,5 +1,5 @@
 # SDGoldBadgeChallenges
-I did challenges 1, 2, and 4. I started 3 but decided to go for 4. So, please ignore the directories with the Badges.
+I did challenges 1, 2, and 4. I started 3 but decided to go for 4.
 
 This is Challenge #1 the Komodo Cafe. There is a menu to do 1 of 6 things.
 
@@ -12,12 +12,12 @@ Enter the numbner of the option you'd like to select:
 6. Update a meal
 0. Exit
 
-I did the second challenge. The menu for the second challenge is
+I did the second challenge (Komodo Claims). The menu for the second challenge is
 1. Show all Claims
 2. Take care of the next claim
 3. Add a new claim
 
-I did the fourth challenge. The menu for the 4th challenge is
+I did the fourth challenge (Komodo Outings). The menu for the 4th challenge is
 1. Show all Events
 2. Show Golf Outing Totals
 3. Show Bowling Outing Totals
