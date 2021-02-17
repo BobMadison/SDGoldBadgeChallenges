@@ -48,10 +48,10 @@ namespace _04c_KomodoOutings_Console.UI
                 Console.Clear();
                 Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
                    " 1. Show all Events\n" +
-                   " 2. Show Amusement Park Totals\n" +
-                   " 3. Show Golf Outing Totals\n" +
-                   " 4. Show Concert Totals\n" +
-                   " 5. Show Bowling Outing Totals\n" +
+                   " 2. Show Golf Outing Totals\n" +
+                   " 3. Show Bowling Outing Totals\n" +
+                   " 4. Show Amusement Park Totals\n" +
+                   " 5. Show Concert Totals\n" +
                    " 6. Add an Event\n" +
                    " Enter your choice (anything else to Exit): ");
 
@@ -73,17 +73,17 @@ namespace _04c_KomodoOutings_Console.UI
                             break;
                         case "2":
                             //Console.Clear();
-                            DisplayOuting(EventType.AmusementPark);
+                            DisplayOuting(EventType.Golf);
                             break;
                         case "3":
-                            DisplayOuting(EventType.Golf);
+                            DisplayOuting(EventType.Bowling);
                             break;
                         case "4":
                             //Console.Clear();
-                            DisplayOuting(EventType.Concert);
+                            DisplayOuting(EventType.AmusementPark);
                             break;
                         case "5":
-                            DisplayOuting(EventType.Bowling);
+                            DisplayOuting(EventType.Concert);
                             break;
                         case "6":
                             AddAnEvent();
@@ -98,13 +98,11 @@ namespace _04c_KomodoOutings_Console.UI
                 if (continueToRun) DisplayListOfOutings();
 
             } while (continueToRun);
-
         }
 
         public void AddAnEvent()
-        {
-            
-            Console.WriteLine("\n\n Here are your claim types:\n\n" +
+        {  
+            Console.WriteLine("\n\n Here are your events:\n\n" +
                    " 1. Golf\n" +
                    " 2. Bowling\n" +
                    " 3. Amusement Park\n" +
@@ -197,14 +195,28 @@ namespace _04c_KomodoOutings_Console.UI
         }
         public void DisplayContent(KomodoOutingsContent content)
         {
-            Console.WriteLine(
-                String.Format(
-                    " {0, -15} | {1, 6}    |{2, 11} | ${3, 6} | ${4, 8}",
-                    content.OutingEvent,
-                    content.NumberAttending,
-                    content.DateOfEvent.ToShortDateString(),
-                    content.CostPerPerson,
-                    content.TotalCostForEvent));
+            if (content.TotalCostForEvent < 1000m)
+            {
+                Console.WriteLine(
+                    String.Format(
+                        " {0, -15} | {1, 6}    |{2, 11} | ${3, 6} | ${4, 11}",
+                        content.OutingEvent,
+                        content.NumberAttending,
+                        content.DateOfEvent.ToShortDateString(),
+                        content.CostPerPerson,
+                        content.TotalCostForEvent));
+            }
+            else
+            {
+                Console.Write(
+                   String.Format(
+                       " {0, -15} | {1, 6}    |{2, 11} | ${3, 6} | $",
+                       content.OutingEvent,
+                       content.NumberAttending,
+                       content.DateOfEvent.ToShortDateString(),
+                       content.CostPerPerson));
+                 CommaTotal(content.TotalCostForEvent);
+            }
         }
 
         public void HeadingLines()
@@ -214,17 +226,55 @@ namespace _04c_KomodoOutings_Console.UI
                 $"{" # Attended",-17}" +
                 $"{" Date",-8}" +
                 $"{" Cost per",-10}" +
-                $"{" Total Cost",-12}");
+                $"{" Total Cost",14}");
             Console.WriteLine($"{"person",50}");
-            Console.WriteLine(new String('-', 63));
-            Console.WriteLine(new String('-', 63));
+            Console.WriteLine(new String('-', 66));
+            Console.WriteLine(new String('-', 66));
         }
 
         public void DisplayTotals(int people, decimal total)
         {
-            Console.WriteLine(String.Format("\n\n  {0, -12} {1, 7} {2,  8} {3, 7}",
+            if (total < 1000.00m) 
+            { 
+                Console.WriteLine(String.Format("\n\n  {0, -12} {1, 7} {2,  8} {3, 7}",
                 "Total Attended: ", people, "Total: $", total));
+            }
+            else
+            {
+                Console.Write(String.Format("\n\n  {0, -12} {1, 7} {2,  8} ",
+                "Total Attended: ", people, "Total: $"));
+                CommaTotal(total);
+            }
+            
         }
+
+        public void CommaTotal(decimal total)
+        {
+            decimal centsValue =(total - Math.Floor(total)) * 100 ;
+            //Console.WriteLine($"This is the cents portion: {centsValue}");
+            int thousandsValue = Convert.ToInt32(total) / 1000;
+            int hundredsValue = Convert.ToInt32(total) % 1000;
+            int newCentsValue = Convert.ToInt32(centsValue);
+            string cents = newCentsValue.ToString();
+
+            if (newCentsValue < 10)
+            {
+                cents = "0" + newCentsValue;
+            }
+
+            if (hundredsValue >= 100)
+            {
+                Console.WriteLine(String.Format(" {0, 3},{1,3}.{2,2}", 
+                    thousandsValue, hundredsValue, cents));
+            }
+            else
+            {
+                Console.WriteLine(String.Format(" {0, 3},0{1,2}.{2,2}",
+                    thousandsValue, hundredsValue, cents));
+            }
+            
+        }
+
         public void SetUpList()
         {
             //  _repo = new KomodoOutingsContent_Repo();
