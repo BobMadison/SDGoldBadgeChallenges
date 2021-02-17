@@ -1,5 +1,5 @@
 # SDGoldBadgeChallenges
-I did challenges 1, 2, and 4. I started 3 but decided to go for 4.
+I did challenges 1, 2, and 4.
 
 This is Challenge #1 the Komodo Cafe. There is a menu to do 1 of 6 things.
 
