@@ -25,6 +25,9 @@ I did the fourth challenge (Komodo Outings). The menu for the 4th challenge is
 5. Show Concert Totals
 6. Add an Event
 
+I seeded the Outings challenge with 20 outings, five of each type. This was to help me see if five outings
+showed up on each of the menu selections 2, 3, 4, and 5. 
+
 I didn't do any error checking. On Challenge #1, I did quite a bit more than was required.
 
 This was a great assignment. Even though I have a lot of programming experience, I learned a great deal.
