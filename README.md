@@ -1,5 +1,6 @@
 # SDGoldBadgeChallenges
-I did challenges 1, 2, and 4.
+Submission for Bob Madison
+I did challenges 1, 2, and 4. (I had already written what follows, so I left it.)
 
 This is Challenge #1 the Komodo Cafe. There is a menu to do 1 of 6 things.
 
