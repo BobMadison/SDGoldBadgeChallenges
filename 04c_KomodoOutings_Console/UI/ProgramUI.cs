@@ -289,18 +289,18 @@ namespace _04c_KomodoOutings_Console.UI
 
         }
 
-        public void CommaTotal(decimal total)
+        public void CommaTotal(decimal total) // 1067.03 - 1267 
         {
-            decimal centsValue = (total - Math.Floor(total)) * 100;
+            decimal centsValue = (total - Math.Floor(total)) * 100; // 3.00
             //Console.WriteLine($"This is the cents portion: {centsValue}");
-            int thousandsValue = Convert.ToInt32(total) / 1000;
-            int hundredsValue = Convert.ToInt32(total) % 1000;
-            int newCentsValue = Convert.ToInt32(centsValue);
-            string cents = newCentsValue.ToString();
+            int thousandsValue = Convert.ToInt32(total) / 1000; // 1
+            int hundredsValue = Convert.ToInt32(total) % 1000; // 67
+            int newCentsValue = Convert.ToInt32(centsValue);  // 3
+            string cents = newCentsValue.ToString(); // "3"
 
             if (newCentsValue < 10)
             {
-                cents = "0" + newCentsValue;
+                cents = "0" + newCentsValue; // "03"
             }
 
             if (hundredsValue >= 100)

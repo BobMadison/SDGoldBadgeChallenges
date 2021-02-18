@@ -89,8 +89,8 @@ namespace KomodoCafe_Console.UI
                     " Enter your choice: ");
 
                 userInput = Console.ReadLine();
-                badInput = userInput != "0" && userInput != "1" && userInput != "2" &&
-                           userInput != "3" && userInput != "4" && userInput != "5";
+                badInput = userInput != "0" && userInput != "1" && userInput != "2" && userInput != "3" &&
+                           userInput != "4" && userInput != "5" && userInput != "6";
                 if (badInput)
                 {
                     Console.WriteLine($"\n {userInput} is not valid. Please try again.");
