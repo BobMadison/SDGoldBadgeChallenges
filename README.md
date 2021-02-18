@@ -1,6 +1,9 @@
 # SDGoldBadgeChallenges
-Submission for Bob Madison
-I did challenges 1, 2, and 4. (I had already written what follows, so I left it.)
+Submission for Bob Madison. I did challenges 1, 2, and 4. (I had already written what follows, so I left it.)
+In challenge #4, I made numbers greater than 1000 to display correctly like 1,000.
+So if I had a total of $21915.15, I programmed the output to be $  21,915.15. The tricky
+parts were when the cents were less than 10 and the dollars less then 1,000 were also
+less than 100. 
 
 This is Challenge #1 the Komodo Cafe. There is a menu to do 1 of 6 things.
 
