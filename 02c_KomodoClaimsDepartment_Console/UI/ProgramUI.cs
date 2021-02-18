@@ -27,13 +27,6 @@ namespace _02c_KomodoClaimsDepartment_Console.UI
             bool continueToRun = true;
             do 
             {
-               /* Console.Clear();
-                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
-                   " 1. Show all Claims\n" +
-                   " 2. Take care of the next claim\n" +
-                   " 3. Add a new claim\n\n" +
-                   " Enter your choice (anything else to Exit): "); */
-
                 string userInput = GetChoiceFromMenu();
                 Console.Clear();
                 if (userInput == "4")
