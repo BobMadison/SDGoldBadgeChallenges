@@ -27,16 +27,16 @@ namespace _02c_KomodoClaimsDepartment_Console.UI
             bool continueToRun = true;
             do 
             {
-                Console.Clear();
+               /* Console.Clear();
                 Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
                    " 1. Show all Claims\n" +
                    " 2. Take care of the next claim\n" +
                    " 3. Add a new claim\n\n" +
-                   " Enter your choice (anything else to Exit): ");
+                   " Enter your choice (anything else to Exit): "); */
 
-                string userInput = Console.ReadLine();
+                string userInput = GetChoiceFromMenu();
                 Console.Clear();
-                if (userInput != "1" && userInput != "2" && userInput != "3")
+                if (userInput == "4")
                 {
                     continueToRun = false;
                 }
@@ -77,6 +77,32 @@ namespace _02c_KomodoClaimsDepartment_Console.UI
 
             } while (continueToRun);
         }
+
+        public string GetChoiceFromMenu()
+        {
+            bool badInput = true;
+            string userInput = "";
+            do
+            {
+                
+                Console.Clear();
+                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
+                   " 1. Show all Claims\n" +
+                   " 2. Take care of the next claim\n" +
+                   " 3. Add a new claim\n" +
+                   " 4. To Exit Program\n\n" +
+                   " Enter your choice: ");
+
+                userInput = Console.ReadLine();
+                badInput = userInput != "1" && userInput != "2" && userInput != "3" && userInput != "4";
+                if (badInput)
+                {
+                    Console.WriteLine($"\n {userInput} is not valid. Please try again.");
+                    Pause();
+                }
+            } while (badInput);
+            return userInput;
+        }
         private void Pause()
         {
             Console.Write($"\nPress any key to continue . . . ");
@@ -107,28 +133,9 @@ namespace _02c_KomodoClaimsDepartment_Console.UI
             decimal claimAmount = Convert.ToDecimal(Console.ReadLine());
 
             DateTime dateOfClaim, dateOfAccident;
-            string dateInput;
-            CultureInfo enUS = new CultureInfo("en-US");
 
-            Console.Write($"Enter the date of the ACCIDENT (format: mm/dd/yyyy): ");
-            dateInput = Console.ReadLine();
-
-            DateTime.TryParseExact(
-                dateInput,
-                "MM/dd/yyyy",
-                enUS,
-                DateTimeStyles.AllowLeadingWhite,
-                out dateOfAccident);
-
-            Console.Write($"Enter the date of the CLAIM (format: mm/dd/yyyy): ");
-            dateInput = Console.ReadLine();
-
-            DateTime.TryParseExact(
-                dateInput,
-                "MM/dd/yyyy",
-                enUS,
-                DateTimeStyles.AllowLeadingWhite,
-                out dateOfClaim);
+            dateOfAccident = GetDateTime("ACCIDENT");
+            dateOfClaim = GetDateTime("CLAIM");
 
             Console.Write("Enter a brief description of the incident: ");
             string description = Console.ReadLine();
@@ -143,6 +150,35 @@ namespace _02c_KomodoClaimsDepartment_Console.UI
             _repo.AddContentToDirectory(content);
         }
 
+        public DateTime GetDateTime(string which)
+        {
+            string dateInput;
+            DateTime dateNeeded;
+            CultureInfo enUS = new CultureInfo("en-US");
+            bool badEntry = true;
+
+            do
+            {
+                Console.Write($"\nEnter the date of the {which} (format: mm/dd/yyyy): ");
+                dateInput = Console.ReadLine();
+
+                if (DateTime.TryParseExact(
+                    dateInput,
+                    "MM/dd/yyyy",
+                    enUS,
+                    DateTimeStyles.AllowLeadingWhite,
+                    out dateNeeded))
+                { 
+                    badEntry = false; 
+                } else
+                {
+                    Console.WriteLine("\n Bad date format. Please try again.");
+                    Pause();
+                    Console.WriteLine();
+                }
+            } while (badEntry);
+            return dateNeeded;
+        }
         public void DisplayListOfClaims()
         {
             List<KomodoClaimsContent> myList = _repo.GetContents();

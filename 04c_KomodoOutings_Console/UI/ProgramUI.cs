@@ -44,21 +44,11 @@ namespace _04c_KomodoOutings_Console.UI
         {
             bool continueToRun = true;
             do
-            {
+            { 
+                string userInput = GetChoiceFromMenu();
                 Console.Clear();
-                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
-                   " 1. Show all Events\n" +
-                   " 2. Show Golf Outing Totals\n" +
-                   " 3. Show Bowling Outing Totals\n" +
-                   " 4. Show Amusement Park Totals\n" +
-                   " 5. Show Concert Totals\n" +
-                   " 6. Add an Event\n" +
-                   " Enter your choice (anything else to Exit): ");
 
-                string userInput = Console.ReadLine();
-                Console.Clear();
-                if (userInput != "1" && userInput != "2" && userInput != "3" &&
-                    userInput != "4" && userInput != "5" && userInput != "6")
+                if (userInput == "7")
                 {
                     continueToRun = false;
                 }
@@ -69,7 +59,7 @@ namespace _04c_KomodoOutings_Console.UI
                         case "1":
                             //Console.Clear();
                             DisplayListOfOutings();
-                          //  Pause();
+                            //  Pause();
                             break;
                         case "2":
                             //Console.Clear();
@@ -100,17 +90,50 @@ namespace _04c_KomodoOutings_Console.UI
             } while (continueToRun);
         }
 
+        public string GetChoiceFromMenu()
+        {
+            string userInput = "";
+            bool badChoice = true;
+
+            do
+            {
+                Console.Clear();
+                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
+                   " 1. Show all Events\n" +
+                   " 2. Show Golf Outing Totals\n" +
+                   " 3. Show Bowling Outing Totals\n" +
+                   " 4. Show Amusement Park Totals\n" +
+                   " 5. Show Concert Totals\n" +
+                   " 6. Add an Event\n" +
+                   " 7. To Exit Program: ");
+                userInput = Console.ReadLine();
+                badChoice = userInput != "1" && userInput != "2" && 
+                            userInput != "3" && userInput != "4" &&
+                            userInput != "5" && userInput != "6" && 
+                            userInput != "7";
+                if(badChoice)
+                {
+                    Console.WriteLine($"\n {userInput} is not valid. Please try again.");
+                    Pause();
+                }
+            } while (badChoice);
+
+            // Console.Clear();
+
+
+            return userInput;
+        }
         public void AddAnEvent()
-        {  
+        {
             Console.WriteLine("\n\n Here are your events:\n\n" +
                    " 1. Golf\n" +
                    " 2. Bowling\n" +
                    " 3. Amusement Park\n" +
-                   " 4. Concert\n\n");
+                   " 4. Concert\n");
             Console.Write($"Enter the event number: ");
             int userInput = Convert.ToInt32(Console.ReadLine());
             EventType eventType = new EventType();
-            
+
             switch (userInput)
             {
                 case 1: eventType = EventType.Golf; break;
@@ -123,19 +146,7 @@ namespace _04c_KomodoOutings_Console.UI
             Console.Write($"How many attended? ");
             int numberOfPeople = Convert.ToInt32(Console.ReadLine());
 
-            DateTime dateOfEvent;
-            string dateInput;
-            CultureInfo enUS = new CultureInfo("en-US");
-
-            Console.Write($"Enter the date of the EVENT (format: mm/dd/yyyy): ");
-            dateInput = Console.ReadLine();
-
-            DateTime.TryParseExact(
-                dateInput,
-                "MM/dd/yyyy",
-                enUS,
-                DateTimeStyles.AllowLeadingWhite,
-                out dateOfEvent);
+            DateTime dateOfEvent = GetDateTime();
 
             Console.Write($"What was the cost per individual? ");
             decimal costOfEvent = Convert.ToDecimal(Console.ReadLine());
@@ -146,6 +157,37 @@ namespace _04c_KomodoOutings_Console.UI
                 dateOfEvent,
                 costOfEvent);
             _repo.AddContentToDirectory(content);
+        }
+
+        public DateTime GetDateTime()
+        {
+            string dateInput;
+            DateTime dateNeeded;
+            CultureInfo enUS = new CultureInfo("en-US");
+            bool badEntry = true;
+
+            do
+            {
+                Console.Write($"\nEnter the event date (format: mm/dd/yyyy): ");
+                dateInput = Console.ReadLine();
+
+                if (DateTime.TryParseExact(
+                    dateInput,
+                    "MM/dd/yyyy",
+                    enUS,
+                    DateTimeStyles.AllowLeadingWhite,
+                    out dateNeeded))
+                {
+                    badEntry = false;
+                }
+                else
+                {
+                    Console.WriteLine("\n Bad date format. Please try again.");
+                    Pause();
+                    Console.WriteLine();
+                }
+            } while (badEntry);
+            return dateNeeded;
         }
 
         private void Pause()
@@ -171,7 +213,7 @@ namespace _04c_KomodoOutings_Console.UI
                     totalForAllEvents += content.TotalCostForEvent;
                 }
             }
-            if (numberOfPeople > 0) 
+            if (numberOfPeople > 0)
                 DisplayTotals(numberOfPeople, totalForAllEvents);
             else
                 Console.WriteLine("\n\n   No one atteneded.\n\n");
@@ -190,7 +232,6 @@ namespace _04c_KomodoOutings_Console.UI
                 numberOfPeople += content.NumberAttending;
                 totalForAllEvents += content.TotalCostForEvent;
             }
-            // Debugginbugging statement Console.WriteLine(numberOfPeople + "  " + totalForAllEvents);
             DisplayTotals(numberOfPeople, totalForAllEvents);
         }
         public void DisplayContent(KomodoOutingsContent content)
@@ -215,7 +256,7 @@ namespace _04c_KomodoOutings_Console.UI
                        content.NumberAttending,
                        content.DateOfEvent.ToShortDateString(),
                        content.CostPerPerson));
-                 CommaTotal(content.TotalCostForEvent);
+                CommaTotal(content.TotalCostForEvent);
             }
         }
 
@@ -234,8 +275,8 @@ namespace _04c_KomodoOutings_Console.UI
 
         public void DisplayTotals(int people, decimal total)
         {
-            if (total < 1000.00m) 
-            { 
+            if (total < 1000.00m)
+            {
                 Console.WriteLine(String.Format("\n\n  {0, -12} {1, 7} {2,  8} {3, 7}",
                 "Total Attended: ", people, "Total: $", total));
             }
@@ -245,12 +286,12 @@ namespace _04c_KomodoOutings_Console.UI
                 "Total Attended: ", people, "Total: $"));
                 CommaTotal(total);
             }
-            
+
         }
 
         public void CommaTotal(decimal total)
         {
-            decimal centsValue =(total - Math.Floor(total)) * 100 ;
+            decimal centsValue = (total - Math.Floor(total)) * 100;
             //Console.WriteLine($"This is the cents portion: {centsValue}");
             int thousandsValue = Convert.ToInt32(total) / 1000;
             int hundredsValue = Convert.ToInt32(total) % 1000;
@@ -264,7 +305,7 @@ namespace _04c_KomodoOutings_Console.UI
 
             if (hundredsValue >= 100)
             {
-                Console.WriteLine(String.Format(" {0, 3},{1,3}.{2,2}", 
+                Console.WriteLine(String.Format(" {0, 3},{1,3}.{2,2}",
                     thousandsValue, hundredsValue, cents));
             }
             else
@@ -272,9 +313,8 @@ namespace _04c_KomodoOutings_Console.UI
                 Console.WriteLine(String.Format(" {0, 3},0{1,2}.{2,2}",
                     thousandsValue, hundredsValue, cents));
             }
-            
-        }
 
+        }
         public void SetUpList()
         {
             //  _repo = new KomodoOutingsContent_Repo();

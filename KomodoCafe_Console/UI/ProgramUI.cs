@@ -30,48 +30,31 @@ namespace KomodoCafe_Console.UI
             bool continueToRun = true;
             do
             {
-                Console.Clear();
-                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
-                    " 1. Show the Menu\n" +
-                    " 2. Find a menu item by name of meal\n" +
-                    " 3. Find a menu item by number of meal\n" +
-                    " 4. Add a new menu item\n" +
-                    " 5. Remove a meal\n" +
-                    " 6. Update a meal\n" +
-                    " 0. Exit\n\n" +
-                    " Enter your choice: ");
-
-                string userInput = Console.ReadLine();
+                string userInput = GetMenuChoice();
 
                 switch (userInput)
                 {
-                    case "1":
-                        // Show the menu;
+                    case "1": 
                         ShowAllContent();
                         Pause();
                         break;
-                    case "2":
-                        // Meal Name
+                    case "2": 
                         ShowContentByMealName();
                         Pause();
                         break;
-                    case "3":
-                        // Meal Number
+                    case "3": 
                         ShowContentByMealNumber();
                         Pause();
                         break;
-                    case "4":
-                        // New Meal
+                    case "4": 
                         AddNewMeal();
                         Pause();
                         break;
                     case "5":
-                        // Remove
                         RemoveMealFromList();
                         Pause();
                         break;
                     case "6":
-                        // Update
                         UpdateMeal();
                         Pause();
                         break;
@@ -84,9 +67,39 @@ namespace KomodoCafe_Console.UI
                         Console.ReadKey();
                         break;
                 }
-
             } while (continueToRun);
         }
+
+        private string GetMenuChoice()
+        {
+            string userInput = "";
+            bool badInput = true;
+
+            do
+            {
+                Console.Clear();
+                Console.Write("\n\n Enter the number of the option you'd like to select:\n\n" +
+                    " 1. Show the Menu\n" +
+                    " 2. Find a menu item by name of meal\n" +
+                    " 3. Find a menu item by number of meal\n" +
+                    " 4. Add a new menu item\n" +
+                    " 5. Remove a meal\n" +
+                    " 6. Update a meal\n" +
+                    " 0. Exit\n\n" +
+                    " Enter your choice: ");
+
+                userInput = Console.ReadLine();
+                badInput = userInput != "0" && userInput != "1" && userInput != "2" &&
+                           userInput != "3" && userInput != "4" && userInput != "5";
+                if (badInput)
+                {
+                    Console.WriteLine($"\n {userInput} is not valid. Please try again.");
+                    Pause();
+                }
+            } while (badInput);
+            return userInput;
+        }
+
         private void Pause()
         {
             Console.Write($"Press any key to continue . . . ");
